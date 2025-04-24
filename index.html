@@ -92,23 +92,27 @@
       renderProducts(products);
     }
 
+    // Function to render products from the spreadsheet
     function renderProducts(products) {
       const container = document.getElementById('product-list');
       container.innerHTML = '';
       products.forEach(product => {
-        if (parseInt(product.InStock) > 0) {
+        // Show product only if stock is greater than 0
+        if (parseInt(product.InStock) > 0) { 
           const div = document.createElement('div');
           div.className = 'bg-white p-4 rounded shadow';
           div.innerHTML = `
             <img src="${product.ImageURL}" alt="${product.Product}" class="w-full h-40 object-cover rounded mb-2"/>
             <h3 class="font-semibold text-lg">${product.Product}</h3>
-            <p class="text-gray-600 mb-2">₱${product.Price}</p>
+            <p class="text-gray-600 mb-1">₱${product.Price}</p>
+            <p class="text-sm text-gray-500 mb-2">Stocks available: ${product.InStock}</p>
             <button class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700" onclick='addToCart("${product.Product}", ${product.Price})'>Add to Cart</button>
           `;
           container.appendChild(div);
         }
       });
     }
+
 
     function addToCart(name, price) {
       const cart = JSON.parse(localStorage.getItem('cart') || '[]');
