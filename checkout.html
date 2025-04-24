@@ -46,19 +46,19 @@
   <script>
   window.addEventListener('DOMContentLoaded', () => {
     const orderSummary = localStorage.getItem('orderSummary');
-    
-    if (orderSummary) {
-      const orderTextarea = document.querySelector('textarea[name="entry.830727322"]');
-      if (orderTextarea) {
-        orderTextarea.value = orderSummary;
-      }
 
-      // Optional: Display order summary above form
-      const summaryDisplay = document.getElementById('order-summary-display');
-      if (summaryDisplay) {
-        summaryDisplay.textContent = orderSummary;
+    // Wait until iframe loads
+    const iframe = document.querySelector('iframe');
+    iframe.onload = () => {
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+      // Attempt to find the input/textarea (change this selector depending on your form field)
+      const textarea = iframeDoc.querySelector('textarea[name="entry.830727322"]');
+
+      if (textarea && orderSummary) {
+        textarea.value = orderSummary;
       }
-    }
+    };
   });
 </script>
 
