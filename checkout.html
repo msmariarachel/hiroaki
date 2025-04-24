@@ -47,6 +47,19 @@
   </footer>
 
 <script>
+  <script>
+    fetch('https://script.google.com/macros/s/AKfycbzvzjQQY4jSMWDvb9wW5GgseZ3qg6UrsabyoBaJ25vnAacHplt8hKQikWC1bycEJNikPw/exec', {
+      method: 'GET',
+      mode: 'no-cors' // This disables CORS checks
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  </script>
+  
   document.getElementById('checkout-form').addEventListener('submit', async function(e) {
     e.preventDefault();
 
