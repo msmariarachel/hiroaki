@@ -67,7 +67,7 @@
       <p id="cart-empty" class="text-gray-500">Your cart is empty.</p>
       <ul id="cart-items" class="mb-4"></ul>
       <p id="cart-total" class="font-bold text-lg"></p>
-      <a href="checkout.html" class="bg-red-600 text-white px-6 py-2 rounded mt-4 hover:bg-red-700 inline-block text-center">Checkout</a>
+      <button class="bg-red-600 text-white px-6 py-2 rounded mt-4 hover:bg-red-700" onclick="checkout()">Checkout</button>
     </div>
   </section>
 
@@ -150,12 +150,11 @@
       cartTotal.textContent = `Total: ₱${total}`;
     }
 
-    function checkout() {
+   function checkout() {
   // Get the cart data
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
   let orderDetails = 'Review your order:\n\n';
 
-  // Generate the order summary dynamically
   cart.forEach(item => {
     orderDetails += `${item.qty}x ${item.name} - ₱${item.price * item.qty}\n`;
   });
@@ -163,18 +162,11 @@
   const totalAmount = cart.reduce((total, item) => total + item.price * item.qty, 0);
   orderDetails += `\nTotal: ₱${totalAmount}`;
 
-  // URL of your Google Form
-  const formURL = 'https://docs.google.com/forms/d/e/1FAIpQLSfwKv6sHkpGVBPS_5NsUXBpJK7g-XAtpnBK1oo5BlH74GZdLg/viewform';
+  // Save the order details to localStorage
+  localStorage.setItem('orderSummary', orderDetails);
 
-
-  // Here, we assume the Google Form has an entry field with the ID 'entry.1234567890' for the order summary
-  const prefillURL = `${formURL}?entry.830727322=${encodeURIComponent(orderDetails)}`;
-
-  // Log the prefill URL to the console for debugging
-  console.log(prefillURL);  // This will log the pre-filled URL in the browser console
-
-  // Open the pre-filled Google Form in a new tab
-  window.open(prefillURL, '_blank');
+  // Redirect to checkout page (no new tab)
+  window.location.href = 'checkout.html';
 }
 
 
