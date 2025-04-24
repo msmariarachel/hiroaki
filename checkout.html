@@ -61,20 +61,14 @@
     };
 
     try {
+      // Make the request without the no-cors mode
       const response = await fetch('https://script.google.com/macros/s/AKfycbwZb8Wn6raVY6kP3clCX2EvJFvk4vUnMTKppq6ExMieoXyxx2I7pbdM_JPCZPogZuEG4g/exec', {
         method: 'POST',
         body: JSON.stringify(formData),
-        headers: { 'Content-Type': 'application/json' },
-        mode: 'no-cors' // This will disable the CORS checks, but the response will be opaque
-      })
-      .then(response => {
-        console.log(response); // Note: You can't access the response body with no-cors mode
-      })
-      .catch(error => {
-        console.error('Error:', error);
+        headers: { 'Content-Type': 'application/json' }
       });
-      
 
+      // Assuming the API responds with JSON
       const result = await response.json();
 
       // Debugging response:
