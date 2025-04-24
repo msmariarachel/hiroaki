@@ -172,8 +172,8 @@
   // Log the prefill URL to the console for debugging
   console.log(prefillURL);  // This will log the pre-filled URL in the browser console
 
-  // Redirect the user to the pre-filled Google Form
-  window.location.href = prefillURL;
+  // Open the pre-filled Google Form in a new tab
+  window.open(prefillURL, '_blank');
 }
 
 
