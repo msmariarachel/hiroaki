@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hiro Aki Pizza Hub</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-bold text-red-600">Hiro Aki</h1>
+      <nav class="space-x-4 text-gray-700">
+        <a href="#products" class="hover:text-red-500">Menu</a>
+        <a href="#cart" class="hover:text-red-500">Cart</a>
+        <a href="#terms" class="hover:text-red-500">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-red-50 py-12 text-center">
+    <h2 class="text-4xl font-bold text-gray-800 mb-2">Your Local Pizza Hub</h2>
+    <p class="text-gray-600">Delicious handmade pizzas crafted with love — order online and enjoy at home!</p>
+    <img src="https://images.unsplash.com/photo-1601924579356-3ecdee4b6d0e" alt="Pizza" class="mx-auto mt-6 rounded-lg shadow w-full max-w-xl h-64 object-cover">
+  </section>
+
+  <!-- Products -->
+  <section id="products" class="max-w-6xl mx-auto px-6 py-10">
+    <h2 class="text-2xl font-bold mb-6 text-gray-800">Our Pizzas</h2>
+    <div id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></div>
+  </section>
+
+  <!-- Cart -->
+  <section id="cart" class="max-w-6xl mx-auto px-6 py-10">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Your Cart</h2>
+    <div class="bg-white p-6 rounded shadow">
+      <p id="cart-empty" class="text-gray-500">Your cart is empty.</p>
+      <ul id="cart-items" class="mb-4"></ul>
+      <p id="cart-total" class="font-bold text-lg"></p>
+      <button class="bg-red-600 text-white px-6 py-2 rounded mt-4 hover:bg-red-700" onclick="checkout()">Checkout</button>
+    </div>
+  </section>
+
+  <!-- Terms & Conditions -->
+  <section id="terms" class="max-w-6xl mx-auto px-6 py-10 text-sm text-gray-600">
+    <h2 class="text-xl font-semibold mb-2">Terms & Conditions</h2>
+    <p>All orders must be paid via GCash or bank transfer before delivery. Cancellations are only accepted within 30 minutes of order placement.</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white mt-10 py-6 text-center text-gray-500 text-sm">
+    &copy; 2025 Hiro Aki Pizza Hub. All rights reserved.
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    const sheetURL = 'https://opensheet.elk.sh/1Vru5RaOBRgjJamG6K0tj5Q7k-TP0z5PEa4rn4HGjIl4/products';
+
+    async function fetchProducts() {
+      const res = await fetch(sheetURL);
+      const products = await res.json();
+      renderProducts(products);
+    }
+
+    function renderProducts(products) {
+      const container = document.getElementById('product-list');
+      container.innerHTML = '';
+      products.forEach(product => {
+        if (product.InStock.toLowerCase() === 'yes') {
+          const div = document.createElement('div');
+          div.className = 'bg-white p-4 rounded shadow';
+          div.innerHTML = `
+            <img src="${product.ImageURL}" alt="${product.Product}" class="w-full h-40 object-cover rounded mb-2"/>
+            <h3 class="font-semibold text-lg">${product.Product}</h3>
+            <p class="text-gray-600 mb-2">₱${product.Price}</p>
+            <button class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700" onclick='addToCart("${product.Product}", ${product.Price})'>Add to Cart</button>
+          `;
+          container.appendChild(div);
+        }
+      });
+    }
+
+    function addToCart(name, price) {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    function renderCart() {
+      const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+      const cartList = document.getElementById('cart-items');
+      const cartTotal = document.getElementById('cart-total');
+      const cartEmpty = document.getElementById('cart-empty');
+      cartList.innerHTML = '';
+      let total = 0;
+
+      if (cart.length === 0) {
+        cartEmpty.style.display = 'block';
+        cartTotal.textContent = '';
+        return;
+      }
+
+      cartEmpty.style.display = 'none';
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.qty}x ${item.name} - ₱${item.price * item.qty}`;
+        cartList.appendChild(li);
+        total += item.price * item.qty;
+      });
+      cartTotal.textContent = `Total: ₱${total}`;
+    }
+
+    function checkout() {
+      alert("Please proceed to payment via GCash or Bank Transfer.\nWe'll contact you for confirmation!");
+      // You can also redirect to a Google Form here
+    }
+
+    fetchProducts();
+    renderCart();
+  </script>
+</body>
+</html>
