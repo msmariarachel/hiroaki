@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout - Hiro Aki Pizza Hub</title>
+
+  <!-- Tailwind CSS v3 CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+  <!-- Navbar -->
+  <header class="bg-white shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-bold text-red-600">Hiro Aki - Cavite Distributor</h1>
+      <nav class="space-x-4 text-gray-700">
+        <a href="index.html" class="hover:text-red-500">Home</a>
+        <a href="checkout.html" class="hover:text-red-500">Checkout</a>
+        <a href="#terms" class="hover:text-red-500">Terms</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Checkout Section -->
+  <section class="max-w-6xl mx-auto px-6 py-10">
+    <h2 class="text-2xl font-bold mb-4 text-gray-800">Complete Your Order</h2>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfwKv6sHkpGVBPS_5NsUXBpJK7g-XAtpnBK1oo5BlH74GZdLg/viewform?embedded=true" 
+      width="640" height="1195" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-white mt-10 py-6 text-center text-gray-500 text-sm">
+    &copy; 2025 Hiro Aki Pizza Hub. All rights reserved.
+  </footer>
+
+  <script>
+    // Get cart data from localStorage and prefill the Google Form
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let orderDetails = 'Order Summary:\n\n';
+
+    cart.forEach(item => {
+      orderDetails += `${item.qty}x ${item.name} - ₱${item.price * item.qty}\n`;
+    });
+
+    const totalAmount = cart.reduce((total, item) => total + item.price * item.qty, 0);
+    orderDetails += `\nTotal: ₱${totalAmount}`;
+
+    const prefillURL = `https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?entry.830727322=${encodeURIComponent(orderDetails)}`;
+
+    // Update the iframe src with the pre-filled order details
+    document.getElementById('google-form').src = prefillURL;
+  </script>
+</body>
+</html>
