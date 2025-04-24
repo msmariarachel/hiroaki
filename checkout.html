@@ -29,6 +29,15 @@
   <input type="text" name="Address" placeholder="Delivery Address" class="w-full p-2 border rounded" required>
   <input type="text" name="Contact" placeholder="Contact Number" class="w-full p-2 border rounded" required>
   <input type="text" name="Email" placeholder="Email Address" class="w-full p-2 border rounded" required>
+
+    <!-- Payment Method Dropdown -->
+  <select name="PaymentMethod" class="w-full p-2 border rounded" required>
+    <option value="" disabled selected>Select Payment Method</option>
+    <option value="GCash">GCash</option>
+    <option value="BDO">BDO</option>
+    <option value="Unionbank">UnionBank</option>
+  </select>
+    
   <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700">Place Order</button>
 </form>
 
