@@ -151,9 +151,28 @@
     }
 
     function checkout() {
-      alert("Please proceed to payment via GCash or Bank Transfer.\nWe'll contact you for confirmation!");
-      // You can also redirect to a Google Form here
-    }
+  // Get the cart data
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  let orderDetails = 'Order Summary:\n\n';
+
+  // Generate the order summary dynamically
+  cart.forEach(item => {
+    orderDetails += `${item.qty}x ${item.name} - ₱${item.price * item.qty}\n`;
+  });
+
+  const totalAmount = cart.reduce((total, item) => total + item.price * item.qty, 0);
+  orderDetails += `\nTotal: ₱${totalAmount}`;
+
+  // URL of your Google Form
+  const formURL = 'https://forms.gle/akudBf4kSsh3aR2E6'; 
+
+  // Here, we assume the Google Form has an entry field with the ID 'entry.1234567890' for the order summary
+  const prefillURL = `${formURL}?entry.830727322=${encodeURIComponent(orderDetails)}`;
+
+  // Redirect the user to the pre-filled Google Form
+  window.location.href = prefillURL;
+}
+
 
     fetchProducts();
     renderCart();
