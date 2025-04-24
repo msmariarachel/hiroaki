@@ -169,6 +169,9 @@
   // Here, we assume the Google Form has an entry field with the ID 'entry.1234567890' for the order summary
   const prefillURL = `${formURL}?entry.830727322=${encodeURIComponent(orderDetails)}`;
 
+  // Log the prefill URL to the console for debugging
+  console.log(prefillURL);  // This will log the pre-filled URL in the browser console
+
   // Redirect the user to the pre-filled Google Form
   window.location.href = prefillURL;
 }
