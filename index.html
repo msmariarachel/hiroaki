@@ -96,7 +96,7 @@
       const container = document.getElementById('product-list');
       container.innerHTML = '';
       products.forEach(product => {
-        if (product.InStock.toLowerCase() === 'yes') {
+        if (parseInt(product.InStock) > 0) {
           const div = document.createElement('div');
           div.className = 'bg-white p-4 rounded shadow';
           div.innerHTML = `
