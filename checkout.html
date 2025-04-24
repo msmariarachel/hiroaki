@@ -44,21 +44,23 @@
   </footer>
 
   <script>
-    // Get cart data from localStorage and prefill the Google Form
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    let orderDetails = 'Order Summary:\n\n';
+  window.addEventListener('DOMContentLoaded', () => {
+    const orderSummary = localStorage.getItem('orderSummary');
+    
+    if (orderSummary) {
+      const orderTextarea = document.querySelector('textarea[name="entry.830727322"]');
+      if (orderTextarea) {
+        orderTextarea.value = orderSummary;
+      }
 
-    cart.forEach(item => {
-      orderDetails += `${item.qty}x ${item.name} - ₱${item.price * item.qty}\n`;
-    });
+      // Optional: Display order summary above form
+      const summaryDisplay = document.getElementById('order-summary-display');
+      if (summaryDisplay) {
+        summaryDisplay.textContent = orderSummary;
+      }
+    }
+  });
+</script>
 
-    const totalAmount = cart.reduce((total, item) => total + item.price * item.qty, 0);
-    orderDetails += `\nTotal: ₱${totalAmount}`;
-
-    const prefillURL = `https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?entry.830727322=${encodeURIComponent(orderDetails)}`;
-
-    // Update the iframe src with the pre-filled order details
-    document.getElementById('google-form').src = prefillURL;
-  </script>
 </body>
 </html>
