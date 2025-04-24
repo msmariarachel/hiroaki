@@ -153,7 +153,7 @@
     function checkout() {
   // Get the cart data
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  let orderDetails = 'Order Summary:\n\n';
+  let orderDetails = 'Review your order:\n\n';
 
   // Generate the order summary dynamically
   cart.forEach(item => {
